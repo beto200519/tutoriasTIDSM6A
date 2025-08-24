@@ -1,0 +1,132 @@
+<div class="modal-content bg-white rounded-4 overflow-hidden">
+  <!-- Header -->
+  <div class="modal-header px-4 py-3 border-bottom bg-success bg-opacity-10 border-success border-opacity-25">
+    <div class="d-flex align-items-center w-100">
+      <div class="d-flex align-items-center justify-content-center bg-success bg-opacity-25 rounded-3 me-3" style="width: 50px; height: 50px;">
+        <i class="mdi mdi-calendar-month fs-4 text-success"></i>
+      </div>
+      <div class="flex-grow-1">
+        <h4 class="modal-title fw-bold text-success mb-1">Seleccionar Cuatrimestre</h4>
+        <p class="text-muted small mb-0">Elige el período académico para continuar</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Tabs -->
+  <div class="bg-light border-bottom border-success border-opacity-25">
+    <div class="container-fluid px-4 py-3">
+      <div class="btn-group w-100" role="group">
+        <button type="button" class="btn btn-outline-success fw-medium px-4 py-2"
+                [class.active]="!filterClose"
+                (click)="cambiarFiltro(false)">
+          <i class="mdi mdi-calendar-check me-2"></i>
+          <span class="d-none d-sm-inline">Cuatrimestres </span>Activos
+          <span class="badge bg-success ms-2">{{ cuatrimestresFiltrados.length }}</span>
+        </button>
+        <button type="button" class="btn btn-outline-secondary fw-medium px-4 py-2"
+                [class.active]="filterClose"
+                (click)="cambiarFiltro(true)">
+          <i class="mdi mdi-calendar-remove me-2"></i>
+          <span class="d-none d-sm-inline">Cuatrimestres </span>Cerrados
+          <span class="badge bg-secondary ms-2">{{ cuatrimestresCerradosCount }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="modal-body">
+    <div class="cuatrimestres-container">
+      <div class="row g-3">
+        <div class="col-12 col-md-6 col-lg-4"
+             *ngFor="let cuatrimestre of cuatrimestresFiltrados; let i = index">
+          <div class="card h-100 border-0 shadow-sm rounded-3 position-relative"
+               [class.disabled]="cuatrimestre._Close"
+               [style.animation]="'slideInUp 0.6s ease-out'"
+               [style.animationDelay]="(i * 0.1) + 's'"
+               (click)="seleccionarCuatrimestre()">
+            <div class="card-header px-3 py-2 border-0"
+                 [ngClass]="cuatrimestre._Close ? 'bg-secondary-subtle' : 'bg-success-subtle'">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                  <i class="mdi mdi-calendar me-2"
+                     [class.text-success]="!cuatrimestre._Close"
+                     [class.text-secondary]="cuatrimestre._Close"></i>
+                  <span class="fw-bold"
+                        [class.text-success]="!cuatrimestre._Close"
+                        [class.text-secondary]="cuatrimestre._Close">
+                    {{ cuatrimestre._Year }}
+                  </span>
+                </div>
+                <span class="badge"
+                      [ngClass]="cuatrimestre._Close ? 'bg-secondary' : 'bg-success'">
+                  {{ cuatrimestre._Close ? 'Cerrado' : 'Activo' }}
+                </span>
+              </div>
+            </div>
+            <div class="card-body text-center p-4">
+              <div class="d-flex justify-content-center align-items-center bg-success bg-opacity-10 border rounded-circle mx-auto mb-3"
+                   style="width: 60px; height: 60px;">
+                <i class="mdi mdi-school fs-4"
+                   [class.text-success]="!cuatrimestre._Close"
+                   [class.text-muted]="cuatrimestre._Close"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-2"
+                  [class.text-dark]="!cuatrimestre._Close"
+                  [class.text-muted]="cuatrimestre._Close">
+                {{ cuatrimestre._PeriodDescription }}
+              </h6>
+              <p class="card-text small"
+                 [class.text-muted]="!cuatrimestre._Close"
+                 [class.text-secondary]="cuatrimestre._Close">
+                Año académico {{ cuatrimestre._Year }}
+              </p>
+              <div class="selection-indicator"
+                   *ngIf="!cuatrimestre._Close">
+                <i class="mdi mdi-check-circle text-success"></i>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center pb-3"
+                 *ngIf="!cuatrimestre._Close">
+              <small class="text-success fw-medium">
+                <i class="mdi mdi-cursor-pointer me-1"></i>
+                Clic para seleccionar
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="cuatrimestresFiltrados.length === 0" class="text-center py-5 fade show">
+        <div>
+          <i class="mdi mdi-calendar-remove fs-1 text-muted mb-3" style="animation: float 3s ease-in-out infinite;"></i>
+          <h5 class="text-muted mb-2">No hay cuatrimestres disponibles</h5>
+          <p class="text-muted small">
+            No se encontraron cuatrimestres {{ filterClose ? 'cerrados' : 'activos' }} en este momento.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="modal-footer bg-light">
+    <div class="w-100">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <small class="text-muted">
+            <i class="mdi mdi-information me-1"></i>
+            Selecciona un cuatrimestre activo para acceder al sistema completo
+          </small>
+        </div>
+        <div class="col-md-4 text-end">
+          <small class="text-muted">
+            Total: <strong>{{ cuatrimestresFiltrados.length }}</strong> 
+            {{ filterClose ? 'cerrados' : 'activos' }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

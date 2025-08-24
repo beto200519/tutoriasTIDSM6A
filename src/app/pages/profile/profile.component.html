@@ -1,0 +1,133 @@
+<app-page-content pageTitle="Perfil del Estudiante">
+  <div class="container my-5">
+    <div class="row">
+      <!-- Columna izquierda -->
+      <div class="col-md-4 mb-4">
+        <!-- Tarjeta del perfil -->
+        <div class="card shadow-sm">
+          <div class="card-header bg-success text-white text-center">
+            <h5 class="card-title mb-0">Perfil Estudiantil</h5>
+          </div>
+          <div class="card-body text-center">
+            <div class="mb-3">
+              <img
+                src="https://imgs.search.brave.com/djxUEIsCLLYhq3wrnX40HiGAByKlUC4jgfUwLTxiRR4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvaGQvdWds/eS1jYXQtcGljdHVy/ZXMtZzJranI3NGcx/azBvZDlnZy5qcGc"
+                alt="Foto de perfil"
+                class="img-fluid rounded-circle shadow-sm"
+                style="width: 150px; height: 150px; object-fit: cover;"
+              />
+            </div>
+            <h4>Norberto</h4>
+            <p class="text-muted">
+              Tecnologías de la Información y Desarrollo de Software Multiplataforma
+            </p>
+            <div class="d-grid gap-2">
+              <button class="btn btn-outline-success" (click)="generarPDF()">
+                <i class="bi bi-download me-2"></i>Ver Horario en PDF
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Información de contacto -->
+        <div class="card shadow-sm mt-4">
+          <div class="card-header bg-success text-white">
+            <h6 class="mb-0"><i class="bi bi-info-circle me-2"></i>Información de Contacto</h6>
+          </div>
+          <div class="card-body">
+            <p class="mb-2"><strong><i class="bi bi-envelope me-2"></i>Email:</strong></p>
+            <p class="text-muted">norbertocorrecamino.edu.mx</p>
+
+            <p class="mb-2"><strong><i class="bi bi-geo-alt me-2"></i>Dirección UTS:</strong></p>
+            <p class="text-muted">Carretera Internacional Sur Km. 6, Ciudad Obregón, Sonora</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha -->
+      <div class="col-md-8">
+        <!-- Maestros asignados -->
+        <div class="card shadow-sm">
+          <div class="card-header bg-success text-white">
+            <h5 class="mb-0"><i class="bi bi-people-fill me-2"></i>Maestros Asignados</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <!-- Cada maestro -->
+              <div class="col-md-6 mb-3" *ngFor="let maestro of maestros">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h6 class="card-title">{{ maestro.nombre }}</h6>
+                    <p class="card-text mb-1">{{ maestro.materia }}</p>
+                    <p class="card-text mb-1">
+                      <i class="bi bi-envelope me-1"></i>{{ maestro.email }}
+                    </p>
+                    <p class="card-text"><i class="bi bi-telephone me-1"></i>{{ maestro.extension }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido oculto para PDF -->
+  <div id="horarioPDF" style="position: absolute; top: -9999px; left: -9999px; width: 210mm; background: white; padding: 20px;">
+    <h2 style="text-align: center;">Universidad Tecnológica del Sur de Sonora</h2>
+    <h3 style="text-align: center;">Horario de Clases - Tecnologías de la Información</h3>
+    <p><strong>Estudiante:</strong> Norberto</p>
+    <p><strong>Semestre:</strong> 2023-2</p>
+
+    <table style="width: 100%; border-collapse: collapse;" border="1" cellpadding="5" cellspacing="0">
+      <thead style="background-color: #198754; color: white;">
+        <tr>
+          <th>Hora</th>
+          <th>Lunes</th>
+          <th>Martes</th>
+          <th>Miércoles</th>
+          <th>Jueves</th>
+          <th>Viernes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>07:00 - 08:00</td>
+          <td>Programación Web</td>
+          <td>Base de Datos</td>
+          <td>Programación Web</td>
+          <td>Base de Datos</td>
+          <td>Taller de Apps</td>
+        </tr>
+        <tr>
+          <td>08:00 - 09:00</td>
+          <td>Programación Web</td>
+          <td>Base de Datos</td>
+          <td>Programación Web</td>
+          <td>Base de Datos</td>
+          <td>Taller de Apps</td>
+        </tr>
+        <tr>
+          <td>09:00 - 10:00</td>
+          <td>Matemáticas</td>
+          <td>Inglés Técnico</td>
+          <td>Matemáticas</td>
+          <td>Inglés Técnico</td>
+          <td>Ética Profesional</td>
+        </tr>
+        <tr>
+          <td>10:00 - 11:00</td>
+          <td>Matemáticas</td>
+          <td>Inglés Técnico</td>
+          <td>Matemáticas</td>
+          <td>Inglés Técnico</td>
+          <td>Ética Profesional</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top: 20px;"><strong>Dirección UTS:</strong> Carretera Internacional Sur Km. 6, Ciudad Obregón, Sonora</p>
+    <p><strong>Fecha de generación:</strong> {{ fechaHoy }}</p>
+  </div>
+</app-page-content>

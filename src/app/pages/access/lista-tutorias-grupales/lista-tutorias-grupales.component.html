@@ -1,0 +1,298 @@
+<app-page-content pageTitle="Gestión de Asesorías" subtitle="Crear nueva asesoría individual o grupal">
+  <div class="container-fluid">
+    
+    <!-- Header con Tabs -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h2 class="h4 mb-0 text-success">
+                <i class="bi bi-journal-bookmark me-2"></i>
+                Nueva Asesoría
+              </h2>
+              
+              <div class="btn-group" role="group">
+                <button type="button" 
+                        class="btn btn-outline-success" 
+                        [class.active]="!isStudentView"
+                        (click)="cambiarVista(false)">
+                  <i class="bi bi-people me-2"></i>Asesoría Grupal
+                </button>
+                <button type="button" 
+                        class="btn btn-outline-success" 
+                        [class.active]="isStudentView"
+                        (click)="cambiarVista(true)">
+                  <i class="bi bi-person me-2"></i>Asesoría Individual
+                </button>
+              </div>
+            </div>
+
+            @if (isLoading) {
+              <div class="text-center py-3">
+                <div class="spinner-border text-success" role="status">
+                  <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="text-muted mt-2">Procesando solicitud...</p>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulario Principal -->
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-header bg-light">
+            <h6 class="mb-0 text-success">
+              <i class="bi bi-info-circle me-2"></i>
+              Información de la Asesoría
+            </h6>
+          </div>
+          <div class="card-body">
+            <div class="row g-3">
+              
+              <!-- Profesor -->
+              <div class="col-md-6">
+                <label class="form-label fw-semibold text-success">Profesor</label>
+                <select class="form-select" [(ngModel)]="modelo.profesorEmail" name="profesorEmail">
+                  <option value="">Seleccionar profesor...</option>
+                  @for (profesor of profesores; track profesor.value) {
+                    <option [value]="profesor.value">{{ profesor.text }}</option>
+                  }
+                </select>
+              </div>
+
+              <!-- Materia -->
+              <div class="col-md-6">
+                <label class="form-label fw-semibold text-success">Materia</label>
+                <select class="form-select" [(ngModel)]="modelo.materiaId" name="materia">
+                  <option value="">Seleccionar materia...</option>
+                  @for (materia of materias; track materia.value) {
+                    <option [value]="materia.value">{{ materia.text }}</option>
+                  }
+                </select>
+              </div>
+
+              <!-- Grupo (solo para grupal) -->
+              @if (!isStudentView) {
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold text-success">Grupo</label>
+                  <select class="form-select" [(ngModel)]="modelo.grupoId" name="grupo">
+                    <option value="">Seleccionar grupo...</option>
+                    @for (grupo of grupos; track grupo.value) {
+                      <option [value]="grupo.value">{{ grupo.text }}</option>
+                    }
+                  </select>
+                </div>
+              }
+
+              <!-- Horas -->
+              <div class="col-md-4">
+                <label class="form-label fw-semibold text-success">Horas</label>
+                <input type="number" class="form-control" 
+                       [(ngModel)]="modelo.horas" 
+                       name="horas" 
+                       min="1" 
+                       max="8"
+                       (keypress)="soloNumeros($event)">
+              </div>
+
+              <!-- Hora Inicio -->
+              <div class="col-md-4">
+                <label class="form-label fw-semibold text-success">Hora Inicio</label>
+                <select class="form-select" [(ngModel)]="modelo.horaInicio" name="horaInicio">
+                  @for (horario of horarios; track horario.value) {
+                    <option [value]="horario.value">{{ horario.hora }}</option>
+                  }
+                </select>
+              </div>
+
+              <!-- Hora Fin -->
+              <div class="col-md-4">
+                <label class="form-label fw-semibold text-success">Hora Fin</label>
+                <select class="form-select" [(ngModel)]="modelo.horaFin" name="horaFin">
+                  @for (horario of horarios; track horario.value) {
+                    <option [value]="horario.value">{{ horario.hora }}</option>
+                  }
+                </select>
+              </div>
+
+              <!-- Días de la semana -->
+              <div class="col-12">
+                <label class="form-label fw-semibold text-success">Días de la semana</label>
+                <div class="d-flex flex-wrap gap-3">
+                  @for (dia of diasSemana; track dia.id) {
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" 
+                             [id]="dia.id" 
+                             [checked]="dia.selected"
+                             (change)="toggleDia(dia)">
+                      <label class="form-check-label" [for]="dia.id">
+                        {{ dia.label }}
+                      </label>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección de Estudiantes (solo para individual) -->
+        @if (isStudentView) {
+          <div class="card shadow-sm border-0">
+            <div class="card-header bg-light">
+              <h6 class="mb-0 text-success">
+                <i class="bi bi-people me-2"></i>
+                Estudiantes Seleccionados
+              </h6>
+            </div>
+            <div class="card-body">
+              @if (estudiantesSeleccionados.length === 0) {
+                <div class="text-center text-muted py-4">
+                  <i class="bi bi-person-x display-4 text-success"></i>
+                  <p class="mt-2">No hay estudiantes seleccionados</p>
+                  <p class="small">Use el panel lateral para agregar estudiantes</p>
+                </div>
+              } @else {
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th class="text-success">Matrícula</th>
+                        <th class="text-success">Nombre</th>
+                        <th class="text-success">Grupo</th>
+                        <th width="120" class="text-success">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (estudiante of estudiantesSeleccionados; track estudiante.matricula; let i = $index) {
+                        <tr>
+                          <td class="fw-semibold">{{ estudiante.matricula }}</td>
+                          <td>
+                            <div class="d-flex align-items-center">
+                              <div class="avatar-sm bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-2">
+                                {{ getIniciales(estudiante.nombre) }}
+                              </div>
+                              {{ estudiante.nombre }}
+                            </div>
+                          </td>
+                          <td>{{ estudiante.grupo || 'N/A' }}</td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-danger"
+                                    (click)="removerEstudiante(i)"
+                                    title="Eliminar estudiante">
+                              <i class="bi bi-trash"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Panel lateral derecho -->
+      <div class="col-lg-4">
+        
+        <!-- Lista de Estudiantes (solo para individual) -->
+        @if (isStudentView) {
+          <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+              <h6 class="mb-0 text-success">
+                <i class="bi bi-search me-2"></i>
+                Buscar Estudiantes
+              </h6>
+              <span class="badge bg-success">{{ estudiantes.length }} estudiantes</span>
+            </div>
+            <div class="card-body">
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-success text-white">
+                  <i class="bi bi-search"></i>
+                </span>
+                <input type="text" class="form-control" placeholder="Buscar por nombre o matrícula..."
+                       (input)="filtrarEstudiantes($event)">
+              </div>
+              
+              <div class="list-group list-group-flush" style="max-height: 300px; overflow-y: auto;">
+                @for (estudiante of estudiantes; track estudiante.matricula) {
+                  <button type="button" class="list-group-item list-group-item-action"
+                          (click)="seleccionarEstudiante(estudiante)">
+                    <div class="d-flex align-items-center">
+                      <div class="avatar-sm bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+                        {{ getIniciales(estudiante.nombre) }}
+                      </div>
+                      <div class="flex-grow-1">
+                        <h6 class="mb-0">{{ estudiante.nombre }}</h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                          <small class="text-muted">Mat: {{ estudiante.matricula }}</small>
+                          <small class="badge bg-secondary">{{ estudiante.grupo }}</small>
+                        </div>
+                      </div>
+                      <i class="bi bi-plus-circle text-success"></i>
+                    </div>
+                  </button>
+                }
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Resumen y Acción -->
+        <div class="card shadow-sm border-0">
+          <div class="card-header bg-light">
+            <h6 class="mb-0 text-success">
+              <i class="bi bi-check-circle me-2"></i>
+              Confirmar Asesoría
+            </h6>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <h6 class="text-success">Resumen:</h6>
+              <ul class="list-unstyled small">
+                <li><strong>Profesor:</strong> {{ modelo.profesorEmail || 'No seleccionado' }}</li>
+                <li><strong>Materia:</strong> {{ getMateriaNombre(modelo.materiaId) || 'No seleccionada' }}</li>
+                @if (!isStudentView) {
+                  <li><strong>Grupo:</strong> {{ getGrupoNombre(modelo.grupoId) || 'No seleccionado' }}</li>
+                }
+                @if (isStudentView) {
+                  <li><strong>Estudiantes:</strong> {{ estudiantesSeleccionados.length }}</li>
+                }
+                <li><strong>Horario:</strong> {{ getHorarioNombre(modelo.horaInicio) }} - {{ getHorarioNombre(modelo.horaFin) }}</li>
+                <li><strong>Días:</strong> {{ getDiasSeleccionados() }}</li>
+              </ul>
+            </div>
+            
+            <div class="d-grid gap-2">
+              <button class="btn btn-success btn-lg" 
+                      (click)="enviarAsesoria()"
+                      [disabled]="isLoading || !esFormularioValido()">
+                @if (isLoading) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  Procesando...
+                } @else {
+                  <i class="bi bi-check-circle me-2"></i>
+                  Guardar Asesoría
+                }
+              </button>
+              
+              <button class="btn btn-outline-secondary" 
+                      (click)="limpiarFormulario()"
+                      [disabled]="isLoading">
+                <i class="bi bi-x-circle me-2"></i>
+                Limpiar Formulario
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-page-content>

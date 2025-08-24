@@ -1,0 +1,256 @@
+<app-page-content pageTitle="DASHBOARD DIRECTOR DE CARRERA - TECNOLOGÍAS DE LA INFORMACIÓN Y DESARROLLO DE SOFTWARE MULTIPLATAFORMA">
+  <div class="container-fluid">
+
+    <!-- Fila 1: Métricas Principales -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="row">
+          <div *ngFor="let metric of metrics" class="col-xl-4 col-md-4 mb-4">
+            <div class="card border-0 shadow-lg h-100 py-3">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-8">
+                    <h5 class="card-title text-muted mb-2">{{ metric.title }}</h5>
+                    <h2 class="fw-bold text-{{ metric.color }}">{{ metric.value | number }}</h2>
+                    <div *ngIf="metric.change !== undefined" class="small mt-2">
+                      <span [class]="getChangeColor(metric.change)">
+                        <i [class]="getChangeIcon(metric.change)"></i>
+                        {{ metric.change }}%
+                      </span>
+                      <span class="text-muted"> vs mes anterior</span>
+                    </div>
+                  </div>
+                  <div class="col-4 text-end">
+                    <div class="icon-shape bg-{{ metric.color }} text-white rounded-circle p-3">
+                      <i [class]="'bi ' + metric.icon + ' fs-1'"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fila 2: Estadísticas Académicas y Gráfica de Calificaciones -->
+    <div class="row mb-4">
+      <!-- Estadísticas Académicas -->
+      <div class="col-xl-6 col-lg-6 mb-4">
+        <div class="card shadow h-100">
+          <div class="card-header bg-white py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Estadísticas Académicas</h5>
+          </div>
+          <div class="card-body">
+            <div class="row h-100">
+              <div *ngFor="let stat of academicStats" class="col-md-6 mb-4">
+                <div class="card border-{{ stat.color }} h-100">
+                  <div class="card-body d-flex flex-column justify-content-between">
+                    <h6 class="card-title text-muted mb-3">{{ stat.title }}</h6>
+                    <div class="d-flex align-items-center mb-3">
+                      <h3 class="fw-bold text-{{ stat.color }} mb-0">{{ stat.value }}</h3>
+                      <span *ngIf="stat.percentage" class="badge bg-{{ stat.color }} ms-2">
+                        {{ stat.percentage }}%
+                      </span>
+                    </div>
+                    <div class="progress mt-2" style="height: 12px;">
+                      <div class="progress-bar bg-{{ stat.color }}" 
+                           [style.width]="stat.percentage + '%'"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráfica de Calificaciones -->
+      <div class="col-xl-6 col-lg-6 mb-4">
+        <div class="card shadow h-100">
+          <div class="card-header bg-white py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Distribución de Calificaciones</h5>
+          </div>
+          <div class="card-body d-flex align-items-center justify-content-center p-4">
+            <canvas #chartCalificaciones style="max-height: 280px; width: 100%!important;"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fila 3: Gráficas y Alertas -->
+    <div class="row mb-4">
+      <!-- Gráfica 1: Tutorías -->
+      <div class="col-xl-3 col-lg-6 mb-4">
+        <div class="card shadow h-100">
+          <div class="card-header bg-white py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Tutorías por Estado</h5>
+          </div>
+          <div class="card-body d-flex align-items-center justify-content-center p-3">
+            <canvas #chartTutorias style="max-height: 220px; width: 100%!important;"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráfica 2: Atención -->
+      <div class="col-xl-3 col-lg-6 mb-4">
+        <div class="card shadow h-100">
+          <div class="card-header bg-white py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Tipos de Atención</h5>
+          </div>
+          <div class="card-body d-flex align-items-center justify-content-center p-3">
+            <canvas #chartAtencion style="max-height: 220px; width: 100%!important;"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráfica 4: Reprobación por Cuatrimestre -->
+      <div class="col-xl-3 col-lg-6 mb-4">
+        <div class="card shadow h-100">
+          <div class="card-header bg-white py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Reprobación por Cuatrimestre</h5>
+          </div>
+          <div class="card-body d-flex align-items-center justify-content-center p-3">
+            <canvas #chartReprobacionCuatrimestre style="max-height: 220px; width: 100%!important;"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alertas Recientes -->
+      <div class="col-xl-3 col-lg-6 mb-4">
+        <div class="card shadow h-100">
+          <div class="card-header bg-white py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Alertas Recientes</h5>
+          </div>
+          <div class="card-body">
+            <div *ngFor="let alerta of alertas" class="alert alert-{{ alerta.type }} alert-dismissible fade show mb-3 p-3">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <span class="fw-medium">{{ alerta.message }}</span>
+                  <br>
+                  <small class="text-muted">{{ alerta.time }}</small>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fila 4: Nuevas Tablas de Indicadores -->
+    <div class="row mb-4">
+      <!-- Tabla de Alumnos Becados -->
+      <div class="col-xl-4 col-lg-6 mb-4">
+        <div class="card shadow h-100">
+          <div class="card-header bg-white py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Alumnos Becados</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th>Tipo de Beca</th>
+                    <th class="text-end">Cantidad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let beca of becas">
+                    <td>{{ beca.tipo }}</td>
+                    <td class="text-end fw-medium">{{ beca.cantidad }}</td>
+                  </tr>
+                  <tr class="table-primary fw-bold">
+                    <td>Total</td>
+                    <td class="text-end">{{ getTotalBecas() }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de Diversidad Étnica -->
+      <div class="col-xl-4 col-lg-6 mb-4">
+        <div class="card shadow h-100">
+          <div class="card-header bg-white py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Diversidad Étnica</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th>Grupo Étnico</th>
+                    <th class="text-end">Cantidad</th>
+                    <th class="text-end">Porcentaje</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let grupo of diversidadEtnica">
+                    <td>{{ grupo.tipo }}</td>
+                    <td class="text-end fw-medium">{{ grupo.cantidad }}</td>
+                    <td class="text-end fw-medium">{{ grupo.porcentaje }}%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de Progreso Académico -->
+      <div class="col-xl-4 col-lg-6 mb-4">
+        <div class="card shadow h-100">
+          <div class="card-header bg-white py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Progreso Académico</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th>Indicador</th>
+                    <th class="text-end">Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let indicador of progresoAcademico">
+                    <td>{{ indicador.tipo }}</td>
+                    <td class="text-end fw-medium">{{ indicador.valor }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fila 5: Acciones Rápidas -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card shadow">
+          <div class="card-header bg-white py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Acciones Rápidas</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <button class="btn btn-outline-primary w-100 py-2">
+                  <i class="bi bi-people me-2"></i>Reporte Alumnos
+                </button>
+              </div>
+              <div class="col-md-3 mb-3">
+                <button class="btn btn-outline-success w-100 py-2">
+                  <i class="bi bi-person-badge me-2"></i>Reporte Maestros
+                </button>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</app-page-content>

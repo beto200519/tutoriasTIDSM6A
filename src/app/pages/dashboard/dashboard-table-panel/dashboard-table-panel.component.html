@@ -1,0 +1,118 @@
+<section class="py-4"> 
+  <div class="d-flex flex-wrap align-items-end gap-3 mb-4">
+    <!-- Selector Grupo -->
+    <div>
+      <label for="grupoSelect" class="form-label mb-1">Grupo:</label>
+      <select id="grupoSelect" class="form-select form-select-sm" [(ngModel)]="selectedGroup" (change)="filterByGroup()">
+        <option value="todos">Todos los grupos</option>
+        <option *ngFor="let grupo of grupos" [value]="grupo">{{grupo}}</option>
+      </select>
+    </div>
+
+    <!-- Selector Nivel Educativo -->
+    <div>
+      <label for="nivelSelect" class="form-label mb-1">Nivel Educativo:</label>
+      <select id="nivelSelect" class="form-select form-select-sm" [(ngModel)]="selectedLevel" (change)="filterByLevel()">
+        <option value="todos">Todos los niveles</option>
+        <option value="TÉCNICO SUPERIOR UNIVERSITARIO">TÉCNICO SUPERIOR UNIVERSITARIO</option>
+        <option value="INGENIERÍA">INGENIERÍA</option>
+        <option value="LICENCIAS PROFESIONALES">LICENCIAS PROFESIONALES</option>
+      </select>
+    </div>
+    
+    <!-- Botón para generar PDF -->
+    <div>
+      <button class="btn btn-sm btn-success" (click)="generatePDF()">
+        <i class="bi bi-file-earmark-pdf me-1"></i> Generar PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-success border-success d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-3">
+        <div class="bg-success rounded p-2">
+          <i class="bi bi-table fs-5 text-white"></i>
+        </div>
+        <div>
+          <h5 class="mb-0 text-white fw-bold">Listado de Usuarios</h5>
+          <small class="text-white">{{ filteredUsuarios.length }} registros encontrados</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th><i class="bi bi-hash me-2 text-muted"></i>Matrícula</th>
+              <th><i class="bi bi-person me-2 text-muted"></i>Nombre</th>
+              <th class="text-center">Grupo</th>
+              <th class="text-center">Nivel</th>
+              <th class="text-center">Kardex</th>
+              <th class="text-center">Boleta</th>
+              <th class="text-center">Canalizar</th>
+              <th class="text-center">Entrevista</th>
+              <th class="text-center">ASPPER</th>
+              <th class="text-center">EXPCLIN</th>
+              <th class="text-center">EVATUTOR</th>
+              <th class="text-center">ALUVUL</th>
+              <th class="text-center">NUM_REP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let usuario of filteredUsuarios">
+              <td><span class="fw-medium text-primary">{{ usuario.matricula }}</span></td>
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <div class="rounded-circle bg-success text-white d-flex justify-content-center align-items-center avatar">
+                    {{ getInitials(usuario.nombre) }}
+                  </div>
+                  <span class="fw-medium">{{ usuario.nombre }}</span>
+                </div>
+              </td>
+              <td class="text-center">{{ usuario.grupo }}</td>
+              <td class="text-center">{{ usuario.nivel }}</td>
+
+              <!-- Botones descarga/documento -->
+              <td class="text-center">
+                <button class="btn btn-sm btn-outline-primary" title="Kardex">
+                  <i class="bi bi-file-earmark-arrow-down"></i>
+                </button>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-outline-primary" title="Boleta">
+                  <i class="bi bi-journal-arrow-down"></i>
+                </button>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-outline-primary" title="Canalizar">
+                  <i class="bi bi-file-earmark-text"></i>
+                </button>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-outline-primary" title="Entrevista">
+                  <i class="bi bi-file-earmark-check"></i>
+                </button>
+              </td>
+
+              <!-- Iconos basados en valores de usuario -->
+              <td class="text-center"><i class="bi status-icon" [ngClass]="getStatusIcon(usuario.asppper)"></i></td>
+              <td class="text-center"><i class="bi status-icon" [ngClass]="getStatusIcon(usuario.expclin)"></i></td>
+              <td class="text-center"><i class="bi status-icon" [ngClass]="getStatusIcon(usuario.evatutor)"></i></td>
+              <td class="text-center"><i class="bi status-icon" [ngClass]="getStatusIcon(usuario.aluvul)"></i></td>
+
+              <!-- NUM_REP con warning -->
+              <td class="text-center">
+                {{ usuario.numRep }}
+                <i *ngIf="hasManyReports(usuario.numRep)" class="bi bi-exclamation-triangle-fill text-warning ms-1"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

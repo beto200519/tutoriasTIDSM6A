@@ -1,0 +1,193 @@
+<section class="bg-light app-filters mb-4">
+  <div class="container-fluid">
+    <div class="row g-4">
+
+      <!-- Panel Coordinador de Tutorías -->
+      <div class="col-12 col-lg-6">
+        <div class="card report-card shadow-sm h-100">
+          <div class="card-header bg-success border-success">
+            <div class="d-flex align-items-center">
+              <div class="icon-wrapper me-3 bg-success p-2 rounded">
+                <i class="bi bi-clipboard-data fs-4 text-white"></i>
+              </div>
+              <div>
+                <h5 class="mb-0 text-white fw-bold">Coordinador de Tutorías</h5>
+                <small class="text-white">Reportes y administración</small>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Botones Coordinador -->
+            <div class="row g-2">
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarListaUsuarios()">
+                  <i class="bi bi-people me-2"></i>
+                  <span>Lista usuarios</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarTutoresPorGrupo()">
+                  <i class="bi bi-person-badge me-2"></i>
+                  <span>Tutores por grupo</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarTableroIndicadores()">
+                  <i class="bi bi-bar-chart me-2"></i>
+                  <span>Tablero indicadores</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarAlumnosReportados()">
+                  <i class="bi bi-exclamation-triangle me-2"></i>
+                  <span>Alumnos reportados</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarTutoriasIndividuales()">
+                  <i class="bi bi-person me-2"></i>
+                  <span>Tutorías individuales</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarConteoCalificaciones()">
+                  <i class="bi bi-clipboard-data me-2"></i>
+                  <span>Conteo calificaciones</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarReportesGrupales()">
+                  <i class="bi bi-people me-2"></i>
+                  <span>Reportes grupales</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarConcentradoCalificaciones()">
+                  <i class="bi bi-file-earmark-spreadsheet me-2"></i>
+                  <span>Concentrado calif.</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarEvaluacionTutor()">
+                  <i class="bi bi-clipboard-check me-2"></i>
+                  <span>Evaluación tutor</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarInformeTutores()">
+                  <i class="bi bi-file-text me-2"></i>
+                  <span>Informe Tutores</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarListaAsistencia()">
+                  <i class="bi bi-people me-2"></i>
+                  <span>Lista asistencia</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel Reportes Tutor -->
+      <div class="col-12 col-lg-6">
+        <div class="card report-card shadow-sm h-100">
+          <div class="card-header bg-success border-success">
+            <div class="d-flex align-items-center">
+              <div class="icon-wrapper me-3 bg-success p-2 rounded">
+                <i class="bi bi-person-workspace fs-4 text-white"></i>
+              </div>
+              <div>
+                <h5 class="mb-0 text-white fw-bold">Reportes Tutor</h5>
+                <small class="text-white">Herramientas para tutores</small>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Botones Reportes -->
+            <div class="row g-2">
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarEstadoCuestionarios()">
+                  <i class="bi bi-clipboard-check me-2"></i>
+                  <span>Estado Cuestionarios</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarTutoriasIndividuales()">
+                  <i class="bi bi-person me-2"></i>
+                  <span>Tutorías individuales</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarTutoriasGrupales()">
+                  <i class="bi bi-people me-2"></i>
+                  <span>Tutorías grupales</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarAlumnosReportados()">
+                  <i class="bi bi-exclamation-triangle me-2"></i>
+                  <span>Alumnos reportados</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarConteoCalificaciones()">
+                  <i class="bi bi-clipboard-data me-2"></i>
+                  <span>Conteo calificaciones</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarAsesoriaAcademica()">
+                  <i class="bi bi-mortarboard me-2"></i>
+                  <span>Asesoría académica</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarReportesGrupales()">
+                  <i class="bi bi-people me-2"></i>
+                  <span>Reportes grupales</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarConcentradoCalificaciones()">
+                  <i class="bi bi-file-earmark-spreadsheet me-2"></i>
+                  <span>Concentrado calif.</span>
+                </button>
+              </div>
+
+              <div class="col-12 col-sm-6 col-xl-4">
+                <button class="btn btn-elegant w-100" type="button" (click)="generarListaAsistencia()">
+                  <i class="bi bi-people me-2"></i>
+                  <span>Lista asistencia</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

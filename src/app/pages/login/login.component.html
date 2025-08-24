@@ -1,0 +1,102 @@
+<div class="auth">
+	<div id="app" class="app auth-wrapp">
+		<div class="auth-pattern"></div>
+		<div
+			class="auth-bg auth-bg-scroll"
+			style="background-image: url(assets/images/auth-bg.jpg)"
+		></div>
+		<div class="auth-content">
+			<div class="container-fluid h-100">
+				<div class="d-flex justify-content-center">
+					<div class="auth-form bg-white rounded-4 w-25">
+						<section class="system-messages">
+							<div class="container-fluid">
+								<!-- <div></div> -->
+							</div>
+						</section>
+						<section class="system-error-messages"></section>
+						<div class="logo-container mb-3">
+						
+						</div>
+						<h3 class="text-black-50 pt-3 border-top">
+							Inicio de Sesi&oacute;n
+						</h3>
+						<div class="text-center mt-5 mb-5 d-flex justify-content-center align-items-center flex-column h-200px">
+							<form autocomplete="off" class="w-100">
+								<div class="my-3">
+									<div class="form-floating outline">
+										<input type="text" class="form-control form-control-lg text-black" id="credential" name="credential" value="" required placeholder="Ingresa tu credencial de acceso" [(ngModel)]="credential">
+										<label for="credential" class="text-black-50">Credencial</label>
+									</div>
+								</div>
+
+								<div class="mb-3">
+									<div class="form-floating outline">
+										<input type="password" class="form-control form-control-lg text-black" id="password" name="password" value="" required="" placeholder="Ingresa tu contraseña" [(ngModel)]="password">
+										<label for="password" class="text-black-50">Contraseña</label>
+									</div>
+								</div>
+								<div class="my-5 text-center border-top">
+									<button type="submit" class="btn btn-success btn-lg shadow-sm text-white mt-3" (click)="loginSimulated()">
+									<!-- <button type="submit" class="btn btn-white btn-lg shadow-sm rounded-pill" (click)="login()"> -->
+										Continuar
+									</button>
+									
+								</div>
+							</form>
+							<!-- <button
+								class="btn btn-lg"
+								(click)="loginLlave()"
+							>
+								<img
+									src="assets/images/logo-llave-sonora-icono-white.svg"
+									alt=""
+									style="
+										display: inline-block;
+										width: 35px;
+										margin-right: 10px;
+									"
+								/>
+								Iniciar sesion con llave
+							</button> -->
+						</div>
+
+						<!-- <div class="d-sm-none w-50 m-auto d-block text-center">
+							<a
+								class=""
+								href="https://www.sonora.gob.mx"
+								title=""
+								target="_blank"
+							>
+								<img
+									src="assets/images/logo-sonora-white.svg"
+									class=""
+									alt="Gobierno del Estado de Sonora"
+								/>
+							</a>
+
+							<p class="text-center mt-3">
+								<a
+									href="https://www.sonora.gob.mx/gobierno/politicas-de-uso-y-privacidad"
+									class="btn btn btn-link py-0 px-0 link-white"
+									title="Aviso de Privacidad"
+								>
+									<span class="text"> Aviso de Privacidad</span>
+								</a>
+							</p>
+						</div> -->
+					</div>
+					<a
+						href="javascript:void(0);"
+						class="btn btn-circle btn-warning btn-phone"
+						title="Información de contacto"
+						(click)="openContactInfo()"
+					>
+						<span class="mdi mdi-chat-processing-outline"></span>
+						<span class="text"> Información de contacto</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

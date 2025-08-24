@@ -1,0 +1,26 @@
+/* Mantiene el host como estaba */
+:host {
+  display: contents;
+}
+
+/* No tocamos todos los <a>, solo los del dropdown */
+.custom-dropdown .dropdown-item {
+  color: #198754 !important; /* verde */
+  background-color: #fff !important; /* fondo blanco */
+}
+
+.custom-dropdown .dropdown-item .mdi {
+  color: #198754 !important; /* iconos verdes */
+}
+
+/* Hover y activo */
+.custom-dropdown .dropdown-item:hover,
+.custom-dropdown .dropdown-item:active {
+  background-color: #198754 !important; /* verde de fondo */
+  color: #fff !important; /* letras blancas */
+}
+
+.custom-dropdown .dropdown-item:hover .mdi,
+.custom-dropdown .dropdown-item:active .mdi {
+  color: #fff !important; /* iconos blancos */
+}
